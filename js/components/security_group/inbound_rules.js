@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var SecurityGroupStore = require('../../stores/security_group');
+
 var SecurityGroupRuleForm = require('./rule_form');
 
 var InboundRules = React.createClass({
