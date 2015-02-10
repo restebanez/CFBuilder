@@ -1,14 +1,15 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var SecurityGroupStore = require('../../stores/security_group');
+var SecurityGroupIngressStore = require('../../stores/security_group_ingress');
 
 var SecurityGroupRuleForm = require('./rule_form');
 
 var InboundRules = React.createClass({
     getInitialState: function() {
+        console.log(SecurityGroupIngressStore.display());
         return {
-            rules: this.props.rules
+            rules: SecurityGroupIngressStore.display()
         };
     },
 
@@ -62,7 +63,7 @@ var InboundRules = React.createClass({
     render: function(){
         var that = this;
         var rows = [];
-        if (typeof this.props.rules === 'object')
+        if (typeof this.state.rules === 'object')
         {
             var securityGroupIngress = this.state.rules.Properties.SecurityGroupIngress;
             securityGroupIngress.map(function(rule, id){
