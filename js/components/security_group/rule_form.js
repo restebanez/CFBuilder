@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var assign = require('object-assign');
+
 var SecurityGroupActions = require('../../actions/security_group');
 
 var SecurityGroupRuleForm = React.createClass({
@@ -12,13 +14,17 @@ var SecurityGroupRuleForm = React.createClass({
     },
 
     updateRule: function(){
-        var that = this;
-        var newRule = {
-            "IpProtocol": that.refs.IpProtocol.getDOMNode().value,
-            "FromPort": that.refs.FromPort.getDOMNode().value,
-            "ToPort": that.refs.ToPort.getDOMNode().value,
-            "CidrIp": that.refs.CidrIp.getDOMNode().value
+        var newRule = assign({}, this.state.rule);
+        newRule["IpProtocol"]= this.refs.IpProtocol.getDOMNode().value;
+        newRule["FromPort"]= this.refs.FromPort.getDOMNode().value;
+        newRule["ToPort"]= this.refs.ToPort.getDOMNode().value;
+        if (typeof this.state.rule.CidrIp !== 'undefined'){
+            newRule["CidrIp"]= this.refs.CidrIp.getDOMNode().value;
+        } else {
+            newRule["SourceSecurityGroupOwnerId"]= this.refs.SourceSecurityGroupOwnerId.getDOMNode().value;
+            newRule["SourceSecurityGroupName"]= this.refs.SourceSecurityGroupName.getDOMNode().value;
         }
+
         this.setState({rule: newRule});
         SecurityGroupActions.update(this.props.index, newRule);
     },
@@ -28,6 +34,23 @@ var SecurityGroupRuleForm = React.createClass({
     },
 
     render: function(){
+        var sgSource = (
+            <div className="row">
+                <div className="col-md-6 column">
+                    <input type="text" value={this.state.rule.SourceSecurityGroupOwnerId} onChange={this.updateRule} className="form-control" ref="SourceSecurityGroupOwnerId" />
+                </div>
+                <div className="col-md-6 column">
+                    <input type="text" value={this.state.rule.SourceSecurityGroupName} onChange={this.updateRule} className="form-control" ref="SourceSecurityGroupName" />
+                </div>
+            </div>
+        );
+
+        var cidrSource = (
+            <input type="text" value={this.state.rule.CidrIp} onChange={this.updateRule} className="form-control"  ref="CidrIp" />
+        );
+
+        var source = typeof this.state.rule.CidrIp !== 'undefined' ? cidrSource : sgSource;
+
         return(
             <div className="row clearfix">
                 <div className="col-md-2 column">
@@ -42,7 +65,7 @@ var SecurityGroupRuleForm = React.createClass({
                 <div className="col-md-6 column">
                     <div className="row clearfix">
                         <div className="col-md-11 column">
-                            <input type="text" value={this.state.rule.CidrIp} onChange={this.updateRule} className="form-control"  ref="CidrIp" />
+                           {source}
                         </div>
                         <div className="col-md-1 column">
                             <span className="input-group-btn">

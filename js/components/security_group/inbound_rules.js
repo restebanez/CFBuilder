@@ -38,6 +38,9 @@ var InboundRules = React.createClass({
         SecurityGroupActions.newCIDRRule();
     },
 
+    newSgSourceRule: function(){
+        SecurityGroupActions.newSgSourceRule();
+    },
 
     render: function(){
         var that = this;
@@ -63,6 +66,7 @@ var InboundRules = React.createClass({
                         </div>
                         {rows}
                         <button onClick={this.newCIDRRule} className="btn btn-default">New CIDR Rule</button>
+                        <button onClick={this.newSgSourceRule} className="btn btn-default">New Security Group Source Rule</button>
                         <pre>{this.showRules()}</pre>
                     </div>
 

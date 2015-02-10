@@ -125,6 +125,11 @@ Dispatcher.register(function(action) {
             SecurityGroupIngress.emitChange();
             break;
 
+        case Constants.NEW_SG_SOURCE_RULE:
+            newSecurityGroupRule();
+            SecurityGroupIngress.emitChange();
+            break;
+
         case Constants.CREATE:
             create(action.item);
             SecurityGroupIngress.emitChange();

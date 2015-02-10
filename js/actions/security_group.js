@@ -6,6 +6,11 @@ var SecurityGroupActions = {
     /**
      * @param  {string} text
      */
+    newSgSourceRule: function(item) {
+        Dispatcher.dispatch({
+            actionType: Constants.NEW_SG_SOURCE_RULE
+        });
+    },
 
     newCIDRRule: function(item) {
         Dispatcher.dispatch({
