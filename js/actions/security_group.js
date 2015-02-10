@@ -6,10 +6,31 @@ var SecurityGroupActions = {
     /**
      * @param  {string} text
      */
-    create: function(text) {
+
+    newCIDRRule: function(item) {
         Dispatcher.dispatch({
-            actionType: Constants.TODO_CREATE,
-            text: text
+            actionType: Constants.NEW_CIDR_RULE
+        });
+    },
+    create: function(item) {
+        Dispatcher.dispatch({
+            actionType: Constants.CREATE,
+            item: item
+        });
+    },
+
+    update: function(id, item) {
+        Dispatcher.dispatch({
+            actionType: Constants.UPDATE,
+            item: item,
+            id: id
+        });
+    },
+
+    destroy: function(id) {
+        Dispatcher.dispatch({
+            actionType: Constants.DESTROY,
+            id: id
         });
     }
 

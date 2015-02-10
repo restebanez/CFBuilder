@@ -48,6 +48,40 @@ function generateRule(){
     return fullRule;
 }
 
+
+
+function newCIDRRule(){
+    create({
+         "IpProtocol": "",
+         "FromPort": "",
+         "ToPort": "",
+         "CidrIp": ""
+    });
+
+}
+
+function newSecurityGroupRule(){
+    create({
+        "IpProtocol": "",
+        "FromPort": "",
+        "ToPort": "",
+        "SourceSecurityGroupOwnerId": "",
+        "SourceSecurityGroupName": ""
+    });
+}
+
+function create(item){
+    _securityGroupIngress.push(item);
+}
+
+function update(id, item){
+    _securityGroupIngress[id] = item;
+}
+
+function destroy(id){
+    _securityGroupIngress.splice(id, 1);
+}
+
 var SecurityGroupIngress = assign({}, EventEmitter.prototype, {
 
 
@@ -84,17 +118,27 @@ var SecurityGroupIngress = assign({}, EventEmitter.prototype, {
 
 // Register callback to handle all updates
 Dispatcher.register(function(action) {
-    var text;
 
     switch(action.actionType) {
-        case Constants.TODO_CREATE:
-            text = action.text.trim();
-            if (text !== '') {
-                create(text);
-            }
-            SecurityGroup.emitChange();
+        case Constants.NEW_CIDR_RULE:
+            newCIDRRule();
+            SecurityGroupIngress.emitChange();
             break;
 
+        case Constants.CREATE:
+            create(action.item);
+            SecurityGroupIngress.emitChange();
+            break;
+
+        case Constants.UPDATE:
+            update(action.id, action.item);
+            SecurityGroupIngress.emitChange();
+            break;
+
+        case Constants.DESTROY:
+            destroy(action.id);
+            SecurityGroupIngress.emitChange();
+            break;
 
         default:
         // no op
