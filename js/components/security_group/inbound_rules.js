@@ -2,8 +2,6 @@
 
 var React = require('react');
 var SecurityGroupIngressStore = require('../../stores/security_group_ingress');
-var SecurityGroupActions = require('../../actions/security_group');
-
 
 var SecurityGroupRuleForm = require('./rule_form');
 

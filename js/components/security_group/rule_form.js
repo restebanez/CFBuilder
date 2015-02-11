@@ -12,21 +12,21 @@ function isCIDR(value){
     return cidrRegex.test(value);
 }
 
-function isJson(value) {
+function isJsonObject(value) {
     try {
-        JSON.parse(value);
-        return (true);
+        parsedValue = JSON.parse(value);
+        return typeof parsedValue === 'object'
     } catch (err) {
         return false
     }
 }
 
-Formsy.addValidationRule('isJson_or_isCidr', function (value) {
-    return(isJson(value) || isCIDR(value));
+Formsy.addValidationRule('isJsonObject_or_isCidr', function (value) {
+    return(isJsonObject(value) || isCIDR(value));
 });
 
-Formsy.addValidationRule('isJson', function (value) {
-    return(isJson(value));
+Formsy.addValidationRule('isJsonObject', function (value) {
+    return(isJsonObject(value));
 });
 
 var SecurityGroupRuleForm = React.createClass({
@@ -45,9 +45,9 @@ var SecurityGroupRuleForm = React.createClass({
 
 
     setRule: function(rule){
-        if(isJson(rule.CidrIp)) rule.CidrIp = JSON.parse(rule.CidrIp);
-        if(isJson(rule.SourceSecurityGroupOwnerId)) rule.SourceSecurityGroupOwnerId = JSON.parse(rule.SourceSecurityGroupOwnerId);
-        if(isJson(rule.SourceSecurityGroupName)) rule.SourceSecurityGroupName = JSON.parse(rule.SourceSecurityGroupName);
+        if(isJsonObject(rule.CidrIp)) rule.CidrIp = JSON.parse(rule.CidrIp);
+        if(isJsonObject(rule.SourceSecurityGroupOwnerId)) rule.SourceSecurityGroupOwnerId = JSON.parse(rule.SourceSecurityGroupOwnerId);
+        if(isJsonObject(rule.SourceSecurityGroupName)) rule.SourceSecurityGroupName = JSON.parse(rule.SourceSecurityGroupName);
 
 
         this.setState({rule: rule});
@@ -70,17 +70,17 @@ var SecurityGroupRuleForm = React.createClass({
         var sgSource = (
               <div className="row">
                   <div className="col-md-6 column">
-                      <InputWithMsg name="SourceSecurityGroupOwnerId" value={SourceSecurityGroupOwnerId} validations="isJson" validationError="invalid JSON" required/>
+                      <InputWithMsg name="SourceSecurityGroupOwnerId" value={SourceSecurityGroupOwnerId} validations="isJsonObject" validationError="invalid JSON" required/>
 
                   </div>
                   <div className="col-md-6 column">
-                      <InputWithMsg name="SourceSecurityGroupName" value={SourceSecurityGroupName} validations="isJson" validationError="invalid JSON" required/>
+                      <InputWithMsg name="SourceSecurityGroupName" value={SourceSecurityGroupName} validations="isJsonObject" validationError="invalid JSON" required/>
                   </div>
               </div>
         );
 
         var cidrSource = (
-                <InputWithMsg name="CidrIp" value={cidrIpString} validations="isJson_or_isCidr" validationError="invalid CIDR or JSON" required/>
+                <InputWithMsg name="CidrIp" value={cidrIpString} validations="isJsonObject_or_isCidr" validationError="invalid CIDR or JSON" required/>
         );
 
         var source = typeof this.props.rule["CidrIp"] !== 'undefined' ? cidrSource : sgSource;
