@@ -38,6 +38,8 @@ var SecurityGroupRuleForm = React.createClass({
     },
 
     _onDestroyClick: function() {
+        console.log('this.props.index');
+        console.log(this.props.index);
         SecurityGroupActions.destroy(this.props.index);
     },
 

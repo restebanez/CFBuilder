@@ -3,20 +3,7 @@ var Constants = require('../constants/security_group');
 
 var SecurityGroupActions = {
 
-    /**
-     * @param  {string} text
-     */
-    newSgSourceRule: function(item) {
-        Dispatcher.dispatch({
-            actionType: Constants.NEW_SG_SOURCE_RULE
-        });
-    },
 
-    newCIDRRule: function(item) {
-        Dispatcher.dispatch({
-            actionType: Constants.NEW_CIDR_RULE
-        });
-    },
     create: function(item) {
         Dispatcher.dispatch({
             actionType: Constants.CREATE,

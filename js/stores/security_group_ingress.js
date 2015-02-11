@@ -49,32 +49,13 @@ function generateRule(){
 }
 
 
-
-function newCIDRRule(){
-    create({
-         "IpProtocol": "",
-         "FromPort": "",
-         "ToPort": "",
-         "CidrIp": ""
-    });
-
-}
-
-function newSecurityGroupRule(){
-    create({
-        "IpProtocol": "",
-        "FromPort": "",
-        "ToPort": "",
-        "SourceSecurityGroupOwnerId": "",
-        "SourceSecurityGroupName": ""
-    });
-}
-
 function create(item){
     _securityGroupIngress.push(item);
 }
 
 function update(id, item){
+    console.log('update store');
+    console.log(id);
     _securityGroupIngress[id] = item;
 }
 
@@ -120,15 +101,6 @@ var SecurityGroupIngress = assign({}, EventEmitter.prototype, {
 Dispatcher.register(function(action) {
 
     switch(action.actionType) {
-        case Constants.NEW_CIDR_RULE:
-            newCIDRRule();
-            SecurityGroupIngress.emitChange();
-            break;
-
-        case Constants.NEW_SG_SOURCE_RULE:
-            newSecurityGroupRule();
-            SecurityGroupIngress.emitChange();
-            break;
 
         case Constants.CREATE:
             create(action.item);

@@ -35,20 +35,34 @@ var InboundRules = React.createClass({
     },
 
     newCIDRRule: function(){
-        SecurityGroupActions.newCIDRRule();
+        // it's here added to the component state, once it gets valid it will be updated to the store
+        newRules = this.state.rules.slice();
+        newRules.push({
+            "IpProtocol": "",
+            "FromPort": "",
+            "ToPort": "",
+            "CidrIp": ""
+        });
+        this.setState({rules: newRules})
     },
 
     newSgSourceRule: function(){
-        SecurityGroupActions.newSgSourceRule();
+        // it's here added to the component state, once it gets valid it will be updated to the store
+        newRules = this.state.rules.slice();
+        newRules.push({
+            "IpProtocol": "",
+            "FromPort": "",
+            "ToPort": "",
+            "SourceSecurityGroupOwnerId": "",
+            "SourceSecurityGroupName": ""
+        });
+        this.setState({rules: newRules})
     },
 
     render: function(){
-        var that = this;
         var rows = [];
 
         this.state.rules.map(function(rule, id){
-            console.log('ids map');
-            console.log(id);
             rows.push(<SecurityGroupRuleForm key={id} index={id} rule={rule} />);
         });
 
