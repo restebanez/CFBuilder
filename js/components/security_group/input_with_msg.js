@@ -20,10 +20,10 @@ var InputWithMsg = React.createClass({
         this.setValue(event.currentTarget.value);
     },
 
-    setFocus: function(){
+    _setFocus: function(){
         this.setState({focus: true})
     },
-    setBlur: function(){
+    _setBlur: function(){
         this.setState({focus: false})
     },
     render: function () {
@@ -33,17 +33,16 @@ var InputWithMsg = React.createClass({
         // when the value is empty and the required prop is
         // passed to the input. showError() is true when the
         // value typed is invalid
-        var className = this.showRequired() ? 'has-warning' : this.showError() ? 'has-error ' : 'has-success';
+        var validationClassName = this.showRequired() ? 'has-warning' : this.showError() ? 'has-error ' : 'has-success';
 
         // An error message is returned ONLY if the component is invalid
-        // or the server has returned an error message
         var errorMessage = this.getErrorMessage();
         var glyphiconIconClass = this.showRequired() ? 'glyphicon-warning-sign' : this.showError() ? 'glyphicon-remove ' : 'glyphicon-ok';
         var iconValidation = this.state.focus ? <span className={'form-control-feedback glyphicon ' + glyphiconIconClass} aria-hidden="true"></span> : '';
         return (
 
-            <div className={'form-group ' + className + ' has-feedback' } >
-                <input className="form-control" onFocus={this.setFocus} onBlur={this.setBlur} type="text" onChange={this.changeValue} value={this.getValue()} aria-describedby="inputError2Status"/>
+            <div className={'form-group ' + validationClassName + ' has-feedback' } >
+                <input className="form-control" onFocus={this._setFocus} onBlur={this._setBlur} type="text" onChange={this.changeValue} value={this.getValue()} aria-describedby="inputError2Status"/>
                {iconValidation}
                 <span id="inputError2Status">{errorMessage}</span>
             </div>

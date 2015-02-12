@@ -28,11 +28,11 @@ var InboundRules = React.createClass({
         this.setState(getIngressState());
     },
 
-    showRules: function(){
+    _showRules: function(){
         return JSON.stringify(SecurityGroupIngressStore.display(), null, " "); // the space param on the last param means pretty printing
     },
 
-    newCIDRRule: function(){
+    _newCIDRRule: function(){
         // it's here added to the component state, once it gets valid it will be updated to the store
         newRules = this.state.rules.slice();
         newRules.push({
@@ -44,7 +44,7 @@ var InboundRules = React.createClass({
         this.setState({rules: newRules})
     },
 
-    newSgSourceRule: function(){
+    _newSgSourceRule: function(){
         // it's here added to the component state, once it gets valid it will be updated to the store
         newRules = this.state.rules.slice();
         newRules.push({
@@ -77,9 +77,9 @@ var InboundRules = React.createClass({
                             <div className="col-md-6 column">{this.props.vpc ? 'Destination' : 'Source' }</div>
                         </div>
                         {rows}
-                        <button onClick={this.newCIDRRule} className="btn btn-default">New CIDR Rule</button>
-                        <button onClick={this.newSgSourceRule} className="btn btn-default">New Security Group Source Rule</button>
-                        <pre>{this.showRules()}</pre>
+                        <button onClick={this._newCIDRRule} className="btn btn-default">New CIDR Rule</button>
+                        <button onClick={this._newSgSourceRule} className="btn btn-default">New Security Group Source Rule</button>
+                        <pre>{this._showRules()}</pre>
                     </div>
 
                 </div>

@@ -44,7 +44,7 @@ var SecurityGroupRuleForm = React.createClass({
     },
 
 
-    setRule: function(rule){
+    _onRuleChange: function(rule){
         if(isJsonObject(rule.CidrIp)) rule.CidrIp = JSON.parse(rule.CidrIp);
         if(isJsonObject(rule.SourceSecurityGroupOwnerId)) rule.SourceSecurityGroupOwnerId = JSON.parse(rule.SourceSecurityGroupOwnerId);
         if(isJsonObject(rule.SourceSecurityGroupName)) rule.SourceSecurityGroupName = JSON.parse(rule.SourceSecurityGroupName);
@@ -54,9 +54,7 @@ var SecurityGroupRuleForm = React.createClass({
     },
 
 
-    updateRule: function(){
-        console.log('updateRule');
-        console.log(this.state.rule);
+    _updateRule: function(){
         SecurityGroupActions.update(this.props.index, this.state.rule);
     },
 
@@ -86,7 +84,7 @@ var SecurityGroupRuleForm = React.createClass({
         var source = typeof this.props.rule["CidrIp"] !== 'undefined' ? cidrSource : sgSource;
 
         return(
-          <Formsy.Form onChange={this.setRule} onValid={this.updateRule}>
+          <Formsy.Form onChange={this._onRuleChange} onValid={this._updateRule}>
               <div className="row clearfix">
                   <div className="col-md-2 column">
                       <InputWithMsg name="IpProtocol" value={this.props.rule.IpProtocol} validations="isAlpha" validationError="only tcp and udp are valid" required/>
